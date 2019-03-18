@@ -175,15 +175,14 @@ func (c *IotHubHTTPClient) buildSasToken(uri string) string {
 
 func (c *IotHubHTTPClient) performRequest(method string, uri string, data string) (string, string) {
 	token := c.buildSasToken(uri)
-	Logger.Printf("%s https://%s\n", method, uri)
+	Logger.Printf("Performing HTTP method '%s' with HTTP body '%s' on URL https://%s\n", method, data, uri)
 	req, _ := http.NewRequest(method, "https://"+uri, bytes.NewBufferString(data))
-	Logger.Println(data)
 
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("User-Agent", "golang-iot-client")
 	req.Header.Set("Authorization", token)
 
-	Logger.Println("Authorization:", token)
+	Logger.Println("Using the HTTP header for Authorization:", token)
 
 	if method == "DELETE" {
 		req.Header.Set("If-Match", "*")
