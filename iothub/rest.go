@@ -156,6 +156,7 @@ func (c *IotHubHTTPClient) ReceiveMessage() (string, string) {
 
 func (c *IotHubHTTPClient) buildSasToken(uri string) string {
 	timestamp := time.Now().Unix() + int64(3600)
+	uri = strings.Split(uri,"/")[0]
 	encodedURI := template.URLQueryEscaper(uri)
 
 	toSign := encodedURI + "\n" + strconv.FormatInt(timestamp, 10)
